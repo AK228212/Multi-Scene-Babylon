@@ -9,6 +9,7 @@ import GardenScene from "./Entities/GardenScene";
 import Ground from "./Entities/Ground";
 import Sunlight from "./Entities/Lights";
 import CastleScene from "./Entities/CastleScene";
+import MultiSceneGUI from "./GUI/MultiSceneGUI";
 
 export default class MainScene {
   public static _canvas: HTMLCanvasElement;
@@ -36,6 +37,7 @@ export default class MainScene {
   }
 
   public init() {
+    new MultiSceneGUI();
     this.camera = new Camera(this._scene, MainScene._canvas);
 
     this.ground = new Ground(this._scene);
@@ -45,8 +47,8 @@ export default class MainScene {
 
     this.environment = new Environment(this._scene);
 
-    new GardenScene(this._scene);
-    // new CastleScene(this._scene);
+    // new GardenScene(this._scene);
+    new CastleScene(this._scene);
     this.setupListeners();
     // this._scene.debugLayer.show();
   }
