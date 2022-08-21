@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "strict": true,
+    "outDir": "public",
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false
+  },
+  "include": ["src/**/*"]
+}
