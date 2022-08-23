@@ -26,7 +26,9 @@ export default class MainScene {
 
   public light: Sunlight;
 
-  constructor(canvas: string) {
+  public sceneClass: any;
+
+  constructor(canvas?: string) {
     MainScene._canvas = document.getElementById(canvas) as HTMLCanvasElement;
 
     MainScene._engine = new Engine(MainScene._canvas, true);
@@ -47,23 +49,32 @@ export default class MainScene {
 
     this.environment = new Environment(this._scene);
 
-    // new GardenScene(this._scene);
-    new CastleScene(this._scene);
+    // this.sceneClass = new GardenScene();
+    // this.sceneClass.scene = this._scene;
+    // this.sceneClass = new CastleScene();
+    // this.sceneClass.scene = this._scene;
+
+    // this.sceneClass = new CastleScene(this._scene);
     this.setupListeners();
     // this._scene.debugLayer.show();
   }
 
   public start() {
-    this.startGameLoop();
+    this.startGameLoop(this.sceneClass.scene);
   }
 
-  public startGameLoop() {
+  public startGameLoop(scene: Scene) {
     MainScene._engine.runRenderLoop(() => {
-      this._scene.render();
+      scene.render();
 
       let fpsLabel = document.getElementById("fps_label");
       fpsLabel.innerHTML = MainScene._engine.getFps().toFixed() + " - FPS";
     });
+  }
+
+  public stopGameLoop(scene: Scene) {
+    scene.detachControl();
+    MainScene._engine.stopRenderLoop();
   }
 
   private setupListeners() {
