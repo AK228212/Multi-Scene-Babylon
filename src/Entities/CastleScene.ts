@@ -80,7 +80,10 @@ export default class CastleScene {
     });
   }
 
-  public dispose() {
-    this._engine.dispose();
+  public dispose(sceneType: string) {
+    this._engine.onDisposeObservable.add(() => {
+      this.GUI.sceneTypeObservable.notifyObservers({ sceneType: sceneType });
+    });
+    // this._engine.dispose();
   }
 }
