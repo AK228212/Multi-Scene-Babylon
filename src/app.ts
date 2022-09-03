@@ -33,7 +33,7 @@ const app = {
         default:
           // console.log("scene");
           // mainScene = null;
-          mainScene.dispose("garden");
+          mainScene.dispose("castle");
           mainScene = null;
           mainScene = new CastleScene(canvasElement);
           // castle.GUI.multiScenesButtons();
