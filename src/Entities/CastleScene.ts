@@ -54,11 +54,11 @@ export default class CastleScene {
 
   public assetsBuild() {
     SceneLoader.LoadAssetContainer(
-      "./assets/castle/",
-      "scene.gltf",
+      "./assets/",
+      "Full.glb",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(5, 5, 5);
+        container.meshes[0].scaling = new Vector3(0.5, 0.5, 0.5);
         container.meshes[0].position = new Vector3(0, 0, 8.75);
         container.meshes[0].rotationQuaternion = null;
         container.meshes[0].rotation.y = Math.PI / 4;
