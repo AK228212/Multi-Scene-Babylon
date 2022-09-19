@@ -61,8 +61,8 @@ export default class GardenScene {
       "scene.gltf",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.08, 0.08, 0.08);
-        container.meshes[0].position = new Vector3(30, -3, 70);
+        container.meshes[0].scaling = new Vector3(0.8, 0.8, 0.8);
+        container.meshes[0].position = new Vector3(30, 10, 70);
         container.addAllToScene();
       }
     );
@@ -133,6 +133,32 @@ export default class GardenScene {
         container.meshes[0].position = new Vector3(-40, 0, 313);
         container.meshes[0].rotationQuaternion = null;
         container.meshes[0].rotation.y = Math.PI / 2;
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "building__interior_effect.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(1.5, 1.5, 1.5);
+        container.meshes[0].position = new Vector3(-232.5, 23, 18);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = 0;
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "old_industrial_building.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(0.05, 0.05, 0.05);
+        container.meshes[0].position = new Vector3(297, 34, 103);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = 0;
         container.addAllToScene();
       }
     );

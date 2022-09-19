@@ -9,7 +9,7 @@ export default class Camera {
   constructor(scene: Scene, canvas: HTMLElement) {
     this.camera = new BABYLON.FreeCamera(
       "PlayerCam",
-      new BABYLON.Vector3(200, 20, 0),
+      new BABYLON.Vector3(-372, 20, 58),
       scene
     );
 
