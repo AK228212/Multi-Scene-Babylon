@@ -61,7 +61,7 @@ export default class GardenScene {
       "scene.gltf",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.8, 0.8, 0.8);
+        container.meshes[0].scaling = new Vector3(0.08, 0.08, 0.08);
         container.meshes[0].position = new Vector3(30, 10, 70);
         container.addAllToScene();
       }
