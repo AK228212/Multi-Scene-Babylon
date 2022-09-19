@@ -8,7 +8,7 @@ export default class Environment {
   constructor(scene: BABYLON.Scene) {
     this.mesh = BABYLON.MeshBuilder.CreateBox(
       "skyBox",
-      { size: 1000.0 },
+      { size: 10000.0 },
       scene
     );
     this.material = new BABYLON.StandardMaterial("skyBox", scene);

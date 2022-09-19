@@ -1,3 +1,4 @@
+import * as BABYLON from "@babylonjs/core";
 import { Scene, SceneLoader, Vector3 } from "@babylonjs/core";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import "@babylonjs/loaders";
@@ -50,6 +51,8 @@ export default class GardenScene {
 
     this.GUI = new MultiSceneGUI();
     this.GUI.multiScenesButtons();
+
+    this._scene.debugLayer.show();
   }
 
   public assetsBuild() {
@@ -58,8 +61,78 @@ export default class GardenScene {
       "scene.gltf",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.05, 0.05, 0.05);
-        container.meshes[0].position = new Vector3(0, 0, 19.043);
+        container.meshes[0].scaling = new Vector3(0.08, 0.08, 0.08);
+        container.meshes[0].position = new Vector3(30, -3, 70);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "road_traffic_sign.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(0.5, 0.5, 0.5);
+        container.meshes[0].position = new Vector3(230, 0.2, 170);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "bus_stop.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(5, 5, 5);
+        container.meshes[0].position = new Vector3(-140, 0.2, 68);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "ford_mondeo_police_ver.2.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(0.15, 0.15, 0.15);
+        container.meshes[0].position = new Vector3(0, 4.57, -127);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = Math.PI / 2;
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "ford_ranger_2019_blue.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(0.15, 0.15, 0.15);
+        container.meshes[0].position = new Vector3(-156, 4.57, 155);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "residential_building.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(3, 3, 3);
+        container.meshes[0].position = new Vector3(-66, 0, -200.7);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "ruin_city.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(4, 4, 4);
+        container.meshes[0].position = new Vector3(-40, 0, 313);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = Math.PI / 2;
         container.addAllToScene();
       }
     );

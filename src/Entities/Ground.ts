@@ -7,13 +7,13 @@ export default class Ground {
 
   constructor(scene: BABYLON.Scene) {
     this.mesh = BABYLON.MeshBuilder.CreateTiledGround("gd", {
-      xmin: -64,
-      xmax: 64,
-      zmin: -64,
-      zmax: 64,
+      xmin: -512,
+      xmax: 512,
+      zmin: -512,
+      zmax: 512,
       subdivisions: {
-        w: 8,
-        h: 8,
+        w: 30,
+        h: 30,
       },
     });
 

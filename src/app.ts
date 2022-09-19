@@ -15,17 +15,17 @@ const app = {
 
     // const mainScene = new MainScene(canvasElement)
 
-    var mainScene = new CastleScene(canvasElement);
+    var mainScene = new GardenScene(canvasElement);
     mainScene.start();
 
     mainScene.GUI.sceneTypeObservable.add((scene) => {
       console.log(scene);
 
       switch (scene.sceneType) {
-        case "garden":
-          mainScene.dispose("garden");
+        case "castle":
+          mainScene.dispose("castle");
           mainScene = null;
-          mainScene = new GardenScene(canvasElement);
+          mainScene = new CastleScene(canvasElement);
           // garden.GUI.multiScenesButtons();
           mainScene.start();
           break;
@@ -33,9 +33,9 @@ const app = {
         default:
           // console.log("scene");
           // mainScene = null;
-          mainScene.dispose("castle");
+          mainScene.dispose("garden");
           mainScene = null;
-          mainScene = new CastleScene(canvasElement);
+          mainScene = new GardenScene(canvasElement);
           // castle.GUI.multiScenesButtons();
           mainScene.start();
       }
