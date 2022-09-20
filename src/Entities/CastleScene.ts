@@ -1,5 +1,6 @@
 import { Scene, SceneLoader, Vector3 } from "@babylonjs/core";
 import { Engine } from "@babylonjs/core/Engines/engine";
+import { Client } from "colyseus.js";
 import "@babylonjs/loaders";
 import "@babylonjs/inspector";
 
@@ -8,6 +9,12 @@ import Camera from "./Camera";
 import Environment from "./Environment";
 import Ground from "./Ground";
 import Sunlight from "./Lights";
+import SpawPoint from "./SpawnPoint";
+import Player from "../Player/Player";
+import OtherPlayer from "../Player/OtherPlayer";
+import Config from "../Config";
+import GameRoom from "../Networking/Rooms/GameRoom";
+import { PlayerSchema } from "../networking/schema/PlayerSchema";
 
 export default class CastleScene {
   public _canvas: HTMLCanvasElement;
@@ -26,12 +33,30 @@ export default class CastleScene {
 
   public GUI: MultiSceneGUI;
 
+  public spawnPoint: SpawPoint;
+
+  public player: Player;
+
+  public otherPlayersMap: Map<string, OtherPlayer>;
+
+  public client: Client;
+
+  public gameRoom: GameRoom;
+
+  public isFrozen: boolean;
+
   constructor(canvas: string) {
     this._canvas = document.getElementById(canvas) as HTMLCanvasElement;
 
     this._engine = new Engine(this._canvas, true);
 
     this._scene = new Scene(this._engine);
+
+    this.otherPlayersMap = new Map();
+
+    this.player = new Player(this);
+
+    this.isFrozen = false;
 
     this.init();
   }
@@ -46,10 +71,23 @@ export default class CastleScene {
 
     this.environment = new Environment(this._scene);
 
+    var spawnPosition: Vector3;
+
+    spawnPosition = new Vector3(2, 4.5, 2);
+
+    this.spawnPoint = new SpawPoint(this._scene, spawnPosition);
+
     this.GUI = new MultiSceneGUI();
     this.GUI.multiScenesButtons();
 
     this.assetsBuild();
+
+    this._scene.registerBeforeRender(() => {
+      this.player.update();
+    });
+
+    this.setupSocket();
+    this._canvas.focus();
   }
 
   public assetsBuild() {
@@ -67,7 +105,13 @@ export default class CastleScene {
     );
   }
 
-  public start() {
+  public async start() {
+    if (Config.useNetworking) {
+      this.gameRoom = new GameRoom(this);
+      await Promise.all([this.gameRoom.connect()]);
+    }
+
+    await Promise.all([this.player.build()]);
     this.startGameLoop();
   }
 
@@ -75,9 +119,36 @@ export default class CastleScene {
     this._engine.runRenderLoop(() => {
       this._scene.render();
 
+      if (Config.useNetworking) {
+        this.gameRoom.updatePlayerToServer();
+      }
+
       let fpsLabel = document.getElementById("fps_label");
       fpsLabel.innerHTML = this._engine.getFps().toFixed() + " - FPS";
     });
+  }
+
+  public async addNewOtherPlayer(playerSchema: PlayerSchema) {
+    const otherPlayer = new OtherPlayer(playerSchema.sessionId, this);
+    await otherPlayer.build();
+    otherPlayer.update(playerSchema);
+    this.otherPlayersMap.set(playerSchema.sessionId, otherPlayer);
+  }
+
+  public removeOtherPlayer(playerSchema: PlayerSchema) {
+    this.otherPlayersMap.get(playerSchema.sessionId).dispose();
+    this.otherPlayersMap.delete(playerSchema.sessionId);
+  }
+
+  public updateOtherPlayer(playerSchema: PlayerSchema) {
+    const otherPlayer = this.otherPlayersMap.get(playerSchema.sessionId);
+    if (otherPlayer) {
+      otherPlayer.update(playerSchema);
+    }
+  }
+
+  private setupSocket() {
+    this.client = new Client(Config.socketAddressProduction);
   }
 
   public dispose(sceneType: string) {

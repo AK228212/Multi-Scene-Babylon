@@ -15,7 +15,9 @@ const app = {
 
     // const mainScene = new MainScene(canvasElement)
 
-    var mainScene = new GardenScene(canvasElement);
+    var mainScene: GardenScene | CastleScene;
+
+    mainScene = new GardenScene(canvasElement);
     mainScene.start();
 
     mainScene.GUI.sceneTypeObservable.add((scene) => {

@@ -1,14 +1,20 @@
-import * as BABYLON from "@babylonjs/core";
 import { Scene, SceneLoader, Vector3 } from "@babylonjs/core";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import "@babylonjs/loaders";
 import "@babylonjs/inspector";
+import { Client } from "colyseus.js";
 
 import MultiSceneGUI from "../GUI/MultiSceneGUI";
 import Camera from "./Camera";
 import Environment from "./Environment";
 import Ground from "./Ground";
 import Sunlight from "./Lights";
+import SpawPoint from "./SpawnPoint";
+import Player from "../Player/Player";
+import OtherPlayer from "../Player/OtherPlayer";
+import Config from "../Config";
+import GameRoom from "../Networking/Rooms/GameRoom";
+import { PlayerSchema } from "../networking/schema/PlayerSchema";
 
 export default class GardenScene {
   public _canvas: HTMLCanvasElement;
@@ -27,6 +33,18 @@ export default class GardenScene {
 
   public GUI: MultiSceneGUI;
 
+  public spawnPoint: SpawPoint;
+
+  public player: Player;
+
+  public otherPlayersMap: Map<string, OtherPlayer>;
+
+  public client: Client;
+
+  public gameRoom: GameRoom;
+
+  public isFrozen: boolean;
+
   constructor(canvas: string) {
     this._canvas = document.getElementById(canvas) as HTMLCanvasElement;
 
@@ -34,11 +52,17 @@ export default class GardenScene {
 
     this._scene = new Scene(this._engine);
 
+    this.otherPlayersMap = new Map();
+
+    this.player = new Player(this);
+
+    this.isFrozen = false;
+
     this.init();
   }
 
   public init() {
-    this.camera = new Camera(this._scene, this._canvas);
+    // this.camera = new Camera(this._scene, this._canvas);
 
     this.ground = new Ground(this._scene);
 
@@ -52,7 +76,19 @@ export default class GardenScene {
     this.GUI = new MultiSceneGUI();
     this.GUI.multiScenesButtons();
 
-    this._scene.debugLayer.show();
+    var spawnPosition: Vector3;
+
+    spawnPosition = new Vector3(-340, 4.5, 60);
+
+    this.spawnPoint = new SpawPoint(this._scene, spawnPosition);
+
+    this._scene.registerBeforeRender(() => {
+      this.player.update();
+    });
+
+    this.setupSocket();
+
+    // this._scene.debugLayer.show();
   }
 
   public assetsBuild() {
@@ -164,16 +200,57 @@ export default class GardenScene {
     );
   }
 
-  public start() {
+  public async start() {
+    if (Config.useNetworking) {
+      this.gameRoom = new GameRoom(this);
+      await Promise.all([this.gameRoom.connect()]);
+    }
+
+    await Promise.all([this.player.build()]);
+
     this.startGameLoop();
   }
 
   public startGameLoop() {
+    window.addEventListener("resize", () => {
+      this._engine.resize();
+    });
+    if (Config.useNetworking) {
+      this.gameRoom.updatePlayerToServer();
+    }
     this._engine.runRenderLoop(() => {
       this._scene.render();
+
+      if (Config.useNetworking) {
+        this.gameRoom.updatePlayerToServer();
+      }
+
       let fpsLabel = document.getElementById("fps_label");
       fpsLabel.innerHTML = this._engine.getFps().toFixed() + " - FPS";
     });
+  }
+
+  public async addNewOtherPlayer(playerSchema: PlayerSchema) {
+    const otherPlayer = new OtherPlayer(playerSchema.sessionId, this);
+    await otherPlayer.build();
+    otherPlayer.update(playerSchema);
+    this.otherPlayersMap.set(playerSchema.sessionId, otherPlayer);
+  }
+
+  public removeOtherPlayer(playerSchema: PlayerSchema) {
+    this.otherPlayersMap.get(playerSchema.sessionId).dispose();
+    this.otherPlayersMap.delete(playerSchema.sessionId);
+  }
+
+  public updateOtherPlayer(playerSchema: PlayerSchema) {
+    const otherPlayer = this.otherPlayersMap.get(playerSchema.sessionId);
+    if (otherPlayer) {
+      otherPlayer.update(playerSchema);
+    }
+  }
+
+  private setupSocket() {
+    this.client = new Client(Config.socketAddressProduction);
   }
 
   public dispose(sceneType: string) {

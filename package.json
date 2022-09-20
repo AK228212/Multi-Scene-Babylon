@@ -18,7 +18,8 @@
     "@babylonjs/inspector": "^5.20.0",
     "@babylonjs/loaders": "^5.20.0",
     "@babylonjs/materials": "^5.20.0",
-    "babylonjs-loaders": "^5.20.0"
+    "babylonjs-loaders": "^5.20.0",
+    "colyseus.js": "^0.14.13"
   },
   "devDependencies": {
     "path": "^0.12.7",
