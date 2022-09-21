@@ -7,7 +7,7 @@
     "build": "webpack",
     "build:watch": "webpack --watch",
     "build-prod": "NODE_ENV=production webpack",
-    "postinstall": "webpack --mode production --env production",
+    "postinstall": "webpack --mode production",
     "start": "node server.js",
     "serve": "webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
