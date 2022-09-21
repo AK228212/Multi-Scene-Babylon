@@ -8,7 +8,7 @@ app.use(express.static(path.resolve(__dirname, "./public/")));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public/index.html"));
 });
-console.log(path.resolve(__dirname, "./public/index.html"), "DIrname");
+
 
 app.listen(port);
 console.log("Server Started!");
