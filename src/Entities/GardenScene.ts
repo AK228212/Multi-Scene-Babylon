@@ -93,12 +93,14 @@ export default class GardenScene {
 
   public assetsBuild() {
     SceneLoader.LoadAssetContainer(
-      "./assets/Garden/",
-      "scene.gltf",
+      "./assets/New models/",
+      "building_concept.glb",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.08, 0.08, 0.08);
-        container.meshes[0].position = new Vector3(30, 10, 70);
+        container.meshes[0].scaling = new Vector3(6.5, 6.5, 6.5);
+        container.meshes[0].position = new Vector3(30, 0, 70);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = Math.PI / 2;
         container.addAllToScene();
       }
     );
@@ -119,7 +121,7 @@ export default class GardenScene {
       "bus_stop.glb",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(5, 5, 5);
+        container.meshes[0].scaling = new Vector3(3.5, 3.5, 3.5);
         container.meshes[0].position = new Vector3(-140, 0.2, 68);
         container.addAllToScene();
       }
@@ -130,8 +132,8 @@ export default class GardenScene {
       "ford_mondeo_police_ver.2.glb",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.15, 0.15, 0.15);
-        container.meshes[0].position = new Vector3(0, 4.57, -127);
+        container.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
+        container.meshes[0].position = new Vector3(0, 3, -127);
         container.meshes[0].rotationQuaternion = null;
         container.meshes[0].rotation.y = Math.PI / 2;
         container.addAllToScene();
@@ -143,8 +145,21 @@ export default class GardenScene {
       "ford_ranger_2019_blue.glb",
       this._scene,
       function (container) {
-        container.meshes[0].scaling = new Vector3(0.15, 0.15, 0.15);
-        container.meshes[0].position = new Vector3(-156, 4.57, 155);
+        container.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
+        container.meshes[0].position = new Vector3(-156, 3, 155);
+        container.addAllToScene();
+      }
+    );
+
+    SceneLoader.LoadAssetContainer(
+      "./assets/New models/",
+      "derby_car._free.glb",
+      this._scene,
+      function (container) {
+        container.meshes[0].scaling = new Vector3(6, 6, 6);
+        container.meshes[0].position = new Vector3(-270, 1, 45);
+        container.meshes[0].rotationQuaternion = null;
+        container.meshes[0].rotation.y = Math.PI / 2;
         container.addAllToScene();
       }
     );

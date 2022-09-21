@@ -15,6 +15,7 @@ export enum MoveDirection {
   LEFT,
   RIGHT,
   IDLE,
+  WAVE,
 }
 
 export default abstract class AbstractPlayer {
@@ -93,6 +94,8 @@ export default abstract class AbstractPlayer {
       return MoveDirection.LEFT;
     } else if (keys.right && !keys.left) {
       return MoveDirection.RIGHT;
+    } else if (keys.wave) {
+      return MoveDirection.WAVE;
     }
     return MoveDirection.IDLE;
   }

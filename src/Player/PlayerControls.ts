@@ -61,6 +61,9 @@ export default class PlayerControls {
       case "Digit2":
         this.keys.selectThirdPersonCamera = keydown;
         break;
+      case "KeyF":
+      case "KeyF":
+        this.keys.wave = keydown;
     }
   }
 }

@@ -22,6 +22,7 @@ export default class PlayerAnimator {
   private backAnim: AnimationGroup;
   private idleAnim: AnimationGroup;
   private currentAnimation: AnimationGroup;
+  private waveAnim: AnimationGroup;
 
   constructor(
     playerMesh: PlayerMesh,
@@ -47,6 +48,7 @@ export default class PlayerAnimator {
     this.leftAnim = animations.find((anim) => anim.name == "Walk");
     this.rightAnim = animations.find((anim) => anim.name == "Walk");
     this.backAnim = animations.find((anim) => anim.name == "Walk");
+    this.waveAnim = animations.find((anim) => anim.name == "Wave");
 
     // start with idle animation
     this.currentAnimation = this.idleAnim;
@@ -107,6 +109,9 @@ export default class PlayerAnimator {
         break;
       case MoveDirection.LEFT:
         this.playAnimation(this.leftAnim);
+        break;
+      case MoveDirection.WAVE:
+        this.playAnimation(this.waveAnim);
         break;
       case MoveDirection.RIGHT:
         this.playAnimation(this.rightAnim);
