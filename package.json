@@ -7,6 +7,8 @@
     "build": "webpack",
     "build:watch": "webpack --watch",
     "build-prod": "NODE_ENV=production webpack",
+    "postinstall": "webpack --mode production --env production",
+    "start": "node server.js",
     "serve": "webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,7 +21,8 @@
     "@babylonjs/loaders": "^5.20.0",
     "@babylonjs/materials": "^5.20.0",
     "babylonjs-loaders": "^5.20.0",
-    "colyseus.js": "^0.14.13"
+    "colyseus.js": "^0.14.13",
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "path": "^0.12.7",
