@@ -10,7 +10,7 @@ import GardenScene from "../Entities/GardenScene";
 import CastleScene from "../Entities/CastleScene";
 
 // configurables
-const SPEED_DEFAULT = 0.7;
+const SPEED_DEFAULT = 0.4;
 const SPEED_CROUCH = SPEED_DEFAULT * 0.5;
 const SPEED_JUMP = 0.4;
 const GRAVITY = 0.016;

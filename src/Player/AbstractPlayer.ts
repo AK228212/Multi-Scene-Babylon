@@ -32,12 +32,12 @@ export default abstract class AbstractPlayer {
   constructor(level: GardenScene | CastleScene, isOtherPlayer: boolean) {
     this.level = level;
 
-    const modelScaling = 50;
+    const modelScaling = 55;
     const standAnimSpeedRatio = 1;
     const crouchAnimSpeedRatio = 1.3;
     this.standMesh = new PlayerMesh(
       "playerStand",
-      "roboorange.glb",
+      "man.glb",
       AbstractPlayer.HEIGHT,
       AbstractPlayer.DIAMETER,
       modelScaling,
